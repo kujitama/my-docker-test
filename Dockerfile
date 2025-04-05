@@ -7,14 +7,11 @@ FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # 必要なパッケージをインストール（ここでは簡単にpythonとpipとgitだけ）
-# apt cleanでキャッシュを削除
+# apt cleanとrm -rf /var/lib/apt/lists/*でキャッシュを削除
 # 容量を小さくするため、基本的にキャッシュは残さない
-RUN apt update && apt install -y \
-    wget \
-    python3 \
-    python3-pip \
-    git \
-&& apt clean
+RUN apt update && apt install -y wget python3 python3-pip git \
+    && apt clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # 作業ディレクトリの指定
 WORKDIR /workspace
